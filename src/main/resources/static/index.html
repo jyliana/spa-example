@@ -63,7 +63,7 @@
             // alert("State = " + state + ", authCode = " + authCode);
             let originalStateValue = document.getElementById("stateValue").innerHTML;
             if (state === originalStateValue) {
-                requestTokens(authCode);
+                requestToken(authCode);
             } else {
                 alert("Invalid state value received")
             }
@@ -76,7 +76,7 @@
                 "client_id": "photo-app-PKCE-client",
                 "code": authCode,
                 "code_verifier": codeVerifier,
-                "redirect_uri": "http//localhost:8181/authcodeReader.html"
+                "redirect_uri": "http://localhost:8181/authcodeReader.html"
             };
             $.ajax({
                 beforeSend: function (request) {
@@ -88,6 +88,10 @@
                 success: postRequestAccessToken,
                 dataType: "json"
             });
+        }
+
+        function postRequestAccessToken(data, status, jqXHR) {
+            document.getElementById("accessToken").innerHTML = data["access_token"];
         }
     </script>
 </head>
@@ -104,5 +108,7 @@
 <div><input type="button" value="Generate Code Challenge value" onclick="generateCodeChallenge()"/></div>
 <br/>
 <div><input type="button" value="Get Auth Code" onclick="getAuthCode()"/></div>
+
+<p>Access token: <span id="accessToken"></span></p>
 </body>
 </html>
